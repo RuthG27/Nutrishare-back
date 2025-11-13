@@ -1,5 +1,5 @@
 package com.nutrishare.backend.controller;
 
-public class UserServiceImpl {
+public class RecetaController {
 
 }
