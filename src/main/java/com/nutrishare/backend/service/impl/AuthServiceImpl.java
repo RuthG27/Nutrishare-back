@@ -11,6 +11,8 @@ import com.nutrishare.backend.model.User;
 import com.nutrishare.backend.repository.UserRepository;
 import com.nutrishare.backend.security.JwtService;
 import com.nutrishare.backend.service.AuthService;
+import com.nutrishare.backend.dto.RegisterRequest;
+import com.nutrishare.backend.exception.UserAlreadyExistsException;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -27,7 +29,7 @@ public class AuthServiceImpl implements AuthService {
     private PasswordEncoder encoder;
 
     @Override
-    public String login(String email, String password) {
+    public User login(String email, String password) {
 
         User user = userRepository.findByEmail(email);
 
@@ -41,8 +43,40 @@ public class AuthServiceImpl implements AuthService {
             throw new BadCredentialsException("Credenciales inválidas");
         }
 
-        String token = jwtService.generateToken(user.getId());
+        return user;
+    }
 
-        return token;
+    @Override
+    public User register(RegisterRequest request) {
+        if (request.getName() == null || request.getName().trim().isEmpty()) {
+            throw new RuntimeException("El nombre de usuario es obligatorio");
+        }
+
+        if (request.getEmail() == null || request.getEmail().trim().isEmpty()) {
+            throw new RuntimeException("El email es obligatorio");
+        }
+
+        if (request.getPassword() == null || request.getPassword().trim().isEmpty()) {
+            throw new RuntimeException("La contraseña es obligatoria");
+        }
+
+        User existingUser = userRepository.findByEmail(request.getEmail());
+        if (existingUser != null) {
+            throw new UserAlreadyExistsException("El email ya está registrado");
+        }
+
+        User newUser = new User();
+        newUser.setName(request.getName());
+        newUser.setEmail(request.getEmail());
+        newUser.setPasswordHash(encoder.encode(request.getPassword()));
+
+        User savedUser = userRepository.save(newUser);
+        logger.info("Usuario registrado exitosamente: {}", request.getEmail());
+        return savedUser;
+    }
+
+    @Override
+    public String generateToken(User user) {
+        return jwtService.generateToken(user.getId());
     }
 }
