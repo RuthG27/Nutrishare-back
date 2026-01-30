@@ -68,6 +68,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private boolean isFreePath(HttpServletRequest request) {
         String path = request.getRequestURI();
-        return path.startsWith("/api/auth/login") || path.startsWith("/api/auth/register");
+        return path.startsWith("/api/auth/login") ||
+                path.startsWith("/api/auth/register");
     }
 }
