@@ -1,5 +1,10 @@
 package com.nutrishare.backend.service;
 
-public interface UserService {
+import com.nutrishare.backend.dto.UserUpdateRequest;
+import com.nutrishare.backend.model.User;
 
+public interface UserService {
+    User getUserById(String id);
+
+    User updateUser(String id, UserUpdateRequest userUpdate);
 }
