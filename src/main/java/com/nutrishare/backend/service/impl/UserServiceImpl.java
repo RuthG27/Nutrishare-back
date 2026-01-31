@@ -50,4 +50,17 @@ public class UserServiceImpl implements UserService {
 
         return userRepository.save(user);
     }
+
+    @Override
+    public void deleteUser(String id) {
+        User user = userRepository.findById(id).orElse(null);
+
+        if (user == null) {
+            logger.error("Usuario no encontrado con id: " + id);
+            throw new RuntimeException("Usuario no encontrado");
+        }
+
+        userRepository.deleteById(id);
+        logger.info("Usuario eliminado exitosamente con id: " + id);
+    }
 }
