@@ -18,38 +18,36 @@ import com.nutrishare.backend.model.Receta;
 import com.nutrishare.backend.service.RecetaService;
 
 @RestController
-@RequestMapping("/recetas")
+@RequestMapping("/api/recetas")
 public class RecetaController {
-	
+
 	@Autowired
 	private RecetaService recetaService;
-	
-	@GetMapping (value="/todas")
-	public List<Receta> obtenerTodas(){
+
+	@GetMapping(value = "/todas")
+	public List<Receta> obtenerTodas() {
 		return recetaService.obtenerTodas();
 	}
-	
+
 	@GetMapping("/{id}")
 	public Receta obtenerPorId(@PathVariable ObjectId id) {
-	    return recetaService.obtenerPorId(id);
+		return recetaService.obtenerPorId(id);
 	}
-	
+
 	@PostMapping
 	public Receta crearReceta(@RequestBody Receta receta) {
 		return recetaService.crearReceta(receta);
 	}
-	
+
 	@PutMapping("/")
 	public Receta actualizarReceta(Receta receta) {
 		return recetaService.actualizarReceta(receta);
 	}
-	
+
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> eliminarReceta(@PathVariable ObjectId id){
+	public ResponseEntity<String> eliminarReceta(@PathVariable ObjectId id) {
 		recetaService.eliminarReceta(id);
 		return ResponseEntity.ok("Receta eliminada");
 	}
-
-	
 
 }

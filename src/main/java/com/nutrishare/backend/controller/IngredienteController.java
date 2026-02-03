@@ -17,39 +17,37 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nutrishare.backend.model.Ingrediente;
 import com.nutrishare.backend.service.IngredienteService;
 
-
 @RestController
-@RequestMapping("/ingredientes")
+@RequestMapping("/api/ingredientes")
 public class IngredienteController {
-	
+
 	@Autowired
 	private IngredienteService ingredienteService;
-	
-	@GetMapping (value= "/todas")
-	public List<Ingrediente> obtenerTodas(){
+
+	@GetMapping(value = "/todas")
+	public List<Ingrediente> obtenerTodas() {
 		return ingredienteService.obtenerTodos();
 	}
-	
+
 	@GetMapping("/{id}")
 	public Ingrediente obtenerPorId(@PathVariable ObjectId id) {
-	    return ingredienteService.obtenerPorId(id);
+		return ingredienteService.obtenerPorId(id);
 	}
-	
+
 	@PostMapping
 	public Ingrediente crearIngrediente(@RequestBody Ingrediente ingrediente) {
 		return ingredienteService.crearIngrediente(ingrediente);
 	}
-	
+
 	@PutMapping("/")
 	public Ingrediente actualizarIngrediente(Ingrediente ingrediente) {
 		return ingredienteService.actualizarIngrediente(ingrediente);
 	}
-	
+
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> eliminarIngrediente(@PathVariable ObjectId id){
+	public ResponseEntity<String> eliminarIngrediente(@PathVariable ObjectId id) {
 		ingredienteService.eliminarIngrediente(id);
 		return ResponseEntity.ok("Ingrediente eliminado");
 	}
-
 
 }
