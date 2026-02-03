@@ -3,6 +3,7 @@ package com.nutrishare.backend.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -53,6 +54,24 @@ public class UserController {
             User updatedUser = userService.updateUser(id, userUpdate);
             UserResponse userResponse = UserResponse.fromUser(updatedUser);
             return ResponseEntity.ok(ApiResponse.success(userResponse));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).body(ApiResponse.error(e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(ApiResponse.error("Error interno del servidor"));
+        }
+    }
+
+    @DeleteMapping("/me")
+    public ResponseEntity<ApiResponse<String>> deleteCurrentUser() {
+        try {
+            User authenticatedUser = (User) SecurityContextHolder
+                    .getContext()
+                    .getAuthentication()
+                    .getPrincipal();
+
+            String id = String.valueOf(authenticatedUser.getId());
+            userService.deleteUser(id);
+            return ResponseEntity.ok(ApiResponse.success("Perfil eliminado exitosamente"));
         } catch (RuntimeException e) {
             return ResponseEntity.status(404).body(ApiResponse.error(e.getMessage()));
         } catch (Exception e) {
