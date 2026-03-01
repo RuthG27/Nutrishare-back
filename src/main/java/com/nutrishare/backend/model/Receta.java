@@ -7,7 +7,9 @@ import java.util.Objects;
 import org.bson.types.ObjectId;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.nutrishare.backend.config.ObjectIdDeserializer;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -19,6 +21,7 @@ public class Receta {
 	@Id
 	@JsonProperty("_id")
 	@JsonSerialize(using = ToStringSerializer.class)
+	@JsonDeserialize(using = ObjectIdDeserializer.class)
 	private ObjectId id;
 	private String nombre;
 	private String cocina;
@@ -30,8 +33,10 @@ public class Receta {
 	private String[] pasos;
     
 	@JsonSerialize(contentUsing = ToStringSerializer.class)
+	@JsonDeserialize(contentUsing = ObjectIdDeserializer.class)
 	private List<ObjectId> ingredientes;
 	@Field("nutrientes_totales")
+	@JsonProperty("nutrientes_totales")
 	private Nutrientes nutrientes;
 	private String img;
 	private double puntuacion;

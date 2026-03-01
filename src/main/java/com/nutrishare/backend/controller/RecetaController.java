@@ -39,15 +39,16 @@ public class RecetaController {
 		return recetaService.crearReceta(receta);
 	}
 
-	@PutMapping("/")
-	public Receta actualizarReceta(Receta receta) {
+	@PutMapping("/{id}")
+	public Receta actualizarReceta(@PathVariable ObjectId id, @RequestBody Receta receta) {
+		receta.setId(id);
 		return recetaService.actualizarReceta(receta);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> eliminarReceta(@PathVariable ObjectId id) {
+	public ResponseEntity<Void> eliminarReceta(@PathVariable ObjectId id) {
 		recetaService.eliminarReceta(id);
-		return ResponseEntity.ok("Receta eliminada");
+		return ResponseEntity.noContent().build();
 	}
 
 }
