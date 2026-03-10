@@ -3,9 +3,9 @@ package com.nutrishare.backend.repository;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import com.nutrishare.backend.model.Receta;
+import com.nutrishare.backend.model.Ingrediente;
 
 
-public interface RecetaRepository  extends MongoRepository<Receta, ObjectId> {
+public interface IngredienteRepository extends MongoRepository<Ingrediente, ObjectId>{
 
 }
