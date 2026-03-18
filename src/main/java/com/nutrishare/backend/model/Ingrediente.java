@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.Objects;
 
 import org.bson.types.ObjectId;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -11,6 +14,8 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Document(collection = "ingredientes")
 public class Ingrediente {
 	@Id
+	@JsonProperty("_id")
+	@JsonSerialize(using = ToStringSerializer.class)
 	private ObjectId id;
 	private String nombre;
 	private String categoria;
