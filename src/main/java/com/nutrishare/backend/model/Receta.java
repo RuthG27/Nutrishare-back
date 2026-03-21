@@ -17,7 +17,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Document(collection = "recetas")
 
 public class Receta {
-	
+
 	@Id
 	@JsonProperty("_id")
 	@JsonSerialize(using = ToStringSerializer.class)
@@ -31,7 +31,7 @@ public class Receta {
 	@JsonProperty("tiempo_preparacion")
 	private String tiempoPreparacion;
 	private String[] pasos;
-    
+
 	@JsonSerialize(contentUsing = ToStringSerializer.class)
 	@JsonDeserialize(contentUsing = ObjectIdDeserializer.class)
 	private List<ObjectId> ingredientes;
@@ -40,13 +40,15 @@ public class Receta {
 	private Nutrientes nutrientes;
 	private String img;
 	private double puntuacion;
+	private String userId;
 
 	public Receta() {
 		super();
 	}
 
-	public Receta(ObjectId id, String nombre, String cocina, String categoria, String dificultad, String tiempoPreparacion,
-			String[] pasos, List<ObjectId> ingredientes, Nutrientes nutrientes, String img, double puntuacion) {
+	public Receta(ObjectId id, String nombre, String cocina, String categoria, String dificultad,
+			String tiempoPreparacion,
+			String[] pasos, List<ObjectId> ingredientes, Nutrientes nutrientes, String img, double puntuacion, String userId) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -59,6 +61,7 @@ public class Receta {
 		this.nutrientes = nutrientes;
 		this.img = img;
 		this.puntuacion = puntuacion;
+		this.userId = userId;
 	}
 
 	public ObjectId getId() {
@@ -148,13 +151,21 @@ public class Receta {
 	public void setPuntuacion(double puntuacion) {
 		this.puntuacion = puntuacion;
 	}
-
+	
+	public String getUserId() {
+		return userId;
+	}
+	
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	
 	@Override
 	public String toString() {
-		return "Receta [id=" + id + ", nombre=" + nombre + ", cocina=" + cocina + ", categoria=" + categoria 
-				+ ", dificultad=" + dificultad + ", tiempoPreparacion=" + tiempoPreparacion + ", pasos=" 
-				+ Arrays.toString(pasos) + ", ingredientes=" + ingredientes + ", nutrientes=" + nutrientes 
-				+ ", img=" + img + ", puntuacion=" + puntuacion + "]";
+		return "Receta [id=" + id + ", nombre=" + nombre + ", cocina=" + cocina + ", categoria=" + categoria
+				+ ", dificultad=" + dificultad + ", tiempoPreparacion=" + tiempoPreparacion + ", pasos="
+				+ Arrays.toString(pasos) + ", ingredientes=" + ingredientes + ", nutrientes=" + nutrientes
+				+ ", img=" + img + ", puntuacion=" + puntuacion + ", userId=" + userId + "]";
 	}
 
 	@Override

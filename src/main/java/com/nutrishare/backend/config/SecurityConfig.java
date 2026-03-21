@@ -32,7 +32,8 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/recetas", "/api/recetas/**", "/api/ingredientes", "/api/ingredientes/**").permitAll()
+                        .requestMatchers("/api/recetas", "/api/recetas/**", "/api/ingredientes", "/api/ingredientes/**")
+                        .permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
