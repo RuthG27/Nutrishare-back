@@ -1,17 +1,23 @@
 package com.nutrishare.backend.model;
 
 import org.springframework.data.mongodb.core.mapping.Field;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Nutrientes {
 	@Field("calories")
+	@JsonProperty("calories")
 	private double calorias;
 	@Field("protein_g")
+	@JsonProperty("protein_g")
 	private double proteinas;
 	@Field("fat_g")
+	@JsonProperty("fat_g")
 	private double grasasTotales;
 	@Field("carbs_g")
+	@JsonProperty("carbs_g")
 	private double carbohidratos;
 	@Field("fiber_g")
+	@JsonProperty("fiber_g")
 	private double fibra;
 	
 	

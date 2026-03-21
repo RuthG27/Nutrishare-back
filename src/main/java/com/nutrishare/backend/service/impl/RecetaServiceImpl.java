@@ -59,4 +59,9 @@ public class RecetaServiceImpl implements RecetaService {
 		
 	}
 
+	@Override
+	public List<Receta> obtenerPorUserId(String userId) {
+		return recetaRepository.findByUserId(userId);
+	}
+
 }
