@@ -35,7 +35,13 @@ public class SecurityConfig {
                         .requestMatchers("/api/favoritos/**").authenticated()
                         .requestMatchers("/api/recetas", "/api/recetas/**", "/api/ingredientes", "/api/ingredientes/**")
                         .permitAll()
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/swagger-ui.html",
+                                "/webjars/**",
+                                "/swagger-resources/**")
+                        .permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin(AbstractHttpConfigurer::disable)
