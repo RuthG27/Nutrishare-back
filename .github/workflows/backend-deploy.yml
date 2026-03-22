@@ -32,6 +32,7 @@ jobs:
           source: "target/*.jar"
           target: "/var/www/temp_deploy"
           strip_components: 1
+          overwrite: true
 
       - name: Deploy and Restart Service
         uses: appleboy/ssh-action@master
