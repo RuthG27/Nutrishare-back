@@ -10,7 +10,9 @@ public interface RecetaService {
     Receta crearReceta(Receta receta);
 
     List<Receta> obtenerTodas();
-    
+
+    List<Receta> obtenerPorUserId(String userId);
+
     Receta obtenerPorId(ObjectId id);
 
     Receta actualizarReceta(Receta receta);

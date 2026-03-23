@@ -32,11 +32,20 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/favoritos/**").authenticated()
+                        .requestMatchers("/api/recetas", "/api/recetas/**", "/api/ingredientes", "/api/ingredientes/**")
+                        .permitAll()
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/swagger-ui.html",
+                                "/webjars/**",
+                                "/swagger-resources/**")
+                        .permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin(AbstractHttpConfigurer::disable)
-                .httpBasic(AbstractHttpConfigurer::disable)
-                .anonymous(AbstractHttpConfigurer::disable);
+                .httpBasic(AbstractHttpConfigurer::disable);
 
         return http.build();
     }
@@ -44,7 +53,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(java.util.List.of("http://localhost:4200"));
+        configuration.setAllowedOriginPatterns(java.util.List.of("http://localhost:4200", "https://nutri-share.com"));
         configuration.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(java.util.List.of("*"));
         configuration.setAllowCredentials(true);

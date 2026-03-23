@@ -5,6 +5,7 @@ import java.util.List;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nutrishare.backend.model.Receta;
+import com.nutrishare.backend.model.User;
 import com.nutrishare.backend.service.RecetaService;
 
 @RestController
@@ -29,6 +31,17 @@ public class RecetaController {
 		return recetaService.obtenerTodas();
 	}
 
+	@GetMapping(value = "/mis-recetas")
+	public List<Receta> obtenerMisRecetas() {
+		User authenticatedUser = (User) SecurityContextHolder
+				.getContext()
+				.getAuthentication()
+				.getPrincipal();
+
+		String id = String.valueOf(authenticatedUser.getId());
+		return recetaService.obtenerPorUserId(id);
+	}
+
 	@GetMapping("/{id}")
 	public Receta obtenerPorId(@PathVariable ObjectId id) {
 		return recetaService.obtenerPorId(id);
@@ -36,18 +49,27 @@ public class RecetaController {
 
 	@PostMapping
 	public Receta crearReceta(@RequestBody Receta receta) {
+		User authenticatedUser = (User) SecurityContextHolder
+				.getContext()
+				.getAuthentication()
+				.getPrincipal();
+
+		String id = String.valueOf(authenticatedUser.getId());
+		receta.setUserId(id);
 		return recetaService.crearReceta(receta);
+
 	}
 
-	@PutMapping("/")
-	public Receta actualizarReceta(Receta receta) {
+	@PutMapping("/{id}")
+	public Receta actualizarReceta(@PathVariable ObjectId id, @RequestBody Receta receta) {
+		receta.setId(id);
 		return recetaService.actualizarReceta(receta);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> eliminarReceta(@PathVariable ObjectId id) {
+	public ResponseEntity<Void> eliminarReceta(@PathVariable ObjectId id) {
 		recetaService.eliminarReceta(id);
-		return ResponseEntity.ok("Receta eliminada");
+		return ResponseEntity.noContent().build();
 	}
 
 }
